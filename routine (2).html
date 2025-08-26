@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ক্লাস রুটিন - সরকারি আজিজুল হক কলেজ</title>
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --white: #ffffff;
+            --radius: 12px;
+            --primary-color: #2563eb;
+            --secondary-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --hover-color: #f1f5f9;
+            --success-color: #10b981;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            /* Enhanced color palette for table */
+            --table-header-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --table-day-bg: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --table-cell-bg-1: #f8faff;
+            --table-cell-bg-2: #e8f2ff;
+            --table-border: #cbd5e1;
+            --period-color: #6366f1;
+            --time-color: #64748b;
+            --teacher-color: #059669;
+            --subject-color: #dc2626;
+        }
+
+        /* Global styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Main routine section container */
+        .routineSection {
+            background: var(--white);
+            border-radius: var(--radius);
+            width: 95%;
+            max-width: 1400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.6s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Header section */
+        .routineSection-header {
+            background: var(--table-header-bg);
+            color: white;
+            padding: 40px 30px;
+            border-radius: var(--radius) var(--radius) 0 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .routineSection-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .routineSection-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .routineSection-subtitle {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+        /* Button container */
+        .routineSection-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            padding: 25px 30px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .routineSection-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .routineSection-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .routineSection-btn:hover::before {
+            left: 100%;
+        }
+
+        .routineSection-btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .routineSection-btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .routineSection-btn-secondary {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .routineSection-btn-secondary:hover {
+            background: linear-gradient(135deg, #047857, #10b981);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Table container */
+        .routineSection-table-container {
+            padding: 35px;
+            overflow-x: auto;
+            background: linear-gradient(135deg, #f8faff 0%, #e8f2ff 100%);
+        }
+
+        /* Enhanced Table styles */
+        .routineSection-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 3px solid var(--table-border);
+        }
+
+        .routineSection-table th,
+        .routineSection-table td {
+            padding: 18px 15px;
+            text-align: center;
+            border: 2px solid var(--table-border);
+            position: relative;
+            vertical-align: middle;
+        }
+
+        /* Enhanced header styling */
+        .routineSection-table thead th {
+            background: var(--table-header-bg);
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .routineSection-table thead th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.3), rgba(255,255,255,0.7), rgba(255,255,255,0.3));
+        }
+
+        /* Period and time styling in header */
+        .period-number {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #fbbf24;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .time-slot {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.9;
+            background: rgba(255,255,255,0.2);
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-top: 5px;
+        }
+
+        /* Enhanced row styling */
+        .routineSection-table tbody tr {
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .routineSection-table tbody tr:hover {
+            transform: scale(1.02);
+            z-index: 10;
+        }
+
+        .routineSection-table tbody tr:nth-child(odd) {
+            background: var(--table-cell-bg-1);
+        }
+
+        .routineSection-table tbody tr:nth-child(even) {
+            background: var(--table-cell-bg-2);
+        }
+
+        .routineSection-table tbody tr:hover {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Enhanced day column styling */
+        .routineSection-table tbody th {
+            background: var(--table-day-bg) !important;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-align: center;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .routineSection-table tbody th::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.1) 75%);
+            background-size: 20px 20px;
+        }
+
+        /* Enhanced subject and teacher info styling */
+        .subject-info {
+            display: block;
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.7);
+            margin: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .subject-info:hover {
+            background: rgba(255,255,255,0.9);
+            transform: scale(1.05);
+        }
+
+        .teacher-name {
+            font-weight: 700;
+            color: var(--teacher-color);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .subject-name {
+            color: var(--subject-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.3;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Empty cell styling */
+        .empty-cell {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #dc2626;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        /* Print styles - Preserve original design */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 0.5cm;
+            }
+
+            body {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                padding: 0;
+                margin: 0;
+                font-size: 10px;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .routineSection {
+                max-width: none !important;
+                max-height: none !important;
+                width: 100% !important;
+                box-shadow: var(--shadow-lg) !important;
+                transform: none !important;
+                animation: none !important;
+                border-radius: var(--radius) !important;
+                background: var(--white) !important;
+                page-break-inside: avoid;
+            }
+
+            .routineSection-buttons {
+                display: none !important;
+            }
+
+            .routineSection-header {
+                background: var(--table-header-bg) !important;
+                color: white !important;
+                border-radius: var(--radius) var(--radius) 0 0 !important;
+                padding: 25px 20px !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .routineSection-header::before {
+                background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>') !important;
+                opacity: 0.3 !important;
+            }
+
+            .routineSection-title {
+                color: white !important;
+                font-size: 22px !important;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+                margin-bottom: 8px !important;
+            }
+
+            .routineSection-subtitle {
+                color: white !important;
+                font-size: 14px !important;
+                opacity: 0.95 !important;
+            }
+
+            .routineSection-table-container {
+                padding: 20px !important;
+                background: linear-gradient(135deg, #f8faff 0%, #e8f2ff 100%) !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .routineSection-table {
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+                border: 3px solid var(--table-border) !important;
+                border-radius: 15px !important;
+                background: white !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+                font-size: 9px !important;
+            }
+
+            .routineSection-table th {
+                background: var(--table-header-bg) !important;
+                color: white !important;
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+                border: 2px solid var(--table-border) !important;
+                padding: 12px 8px !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .routineSection-table thead th::after {
+                background: linear-gradient(90deg, rgba(255,255,255,0.3), rgba(255,255,255,0.7), rgba(255,255,255,0.3)) !important;
+            }
+
+            .routineSection-table tbody th {
+                background: var(--table-day-bg) !important;
+                color: white !important;
+                text-shadow: 1px 1px 3px rgba(0,0,0,0.4) !important;
+                border: 2px solid var(--table-border) !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .routineSection-table tbody th::before {
+                background: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.1) 75%) !important;
+                background-size: 20px 20px !important;
+            }
+
+            .routineSection-table td {
+                border: 2px solid var(--table-border) !important;
+                padding: 10px 6px !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .routineSection-table tbody tr:nth-child(odd) {
+                background: var(--table-cell-bg-1) !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .routineSection-table tbody tr:nth-child(even) {
+                background: var(--table-cell-bg-2) !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .subject-info {
+                background: rgba(255,255,255,0.7) !important;
+                border-radius: 8px !important;
+                padding: 6px !important;
+                margin: 1px !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .teacher-name {
+                color: var(--teacher-color) !important;
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.1) !important;
+                font-size: 8px !important;
+                margin-bottom: 3px !important;
+            }
+
+            .subject-name {
+                color: var(--subject-color) !important;
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.1) !important;
+                font-size: 7px !important;
+                line-height: 1.2 !important;
+            }
+
+            .period-number {
+                color: #fbbf24 !important;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.5) !important;
+                font-size: 10px !important;
+                margin-bottom: 3px !important;
+            }
+
+            .time-slot {
+                background: rgba(255,255,255,0.2) !important;
+                color: white !important;
+                padding: 2px 4px !important;
+                border-radius: 12px !important;
+                font-size: 7px !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .empty-cell {
+                background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%) !important;
+                color: #dc2626 !important;
+                font-size: 12px !important;
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .routineSection {
+                width: 98%;
+                max-height: 95vh;
+            }
+
+            .routineSection-title {
+                font-size: 2rem;
+            }
+
+            .routineSection-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .routineSection-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .routineSection-btn {
+                width: 100%;
+                max-width: 350px;
+                justify-content: center;
+            }
+
+            .routineSection-table th,
+            .routineSection-table td {
+                padding: 12px 8px;
+                font-size: 0.85rem;
+            }
+
+            .period-number {
+                font-size: 1.1rem;
+            }
+
+            .time-slot {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            opacity: 0;
+        }
+
+        /* Enhanced scroll indicator */
+        .routineSection::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .routineSection::-webkit-scrollbar-track {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border-radius: 6px;
+        }
+
+        .routineSection::-webkit-scrollbar-thumb {
+            background: var(--table-header-bg);
+            border-radius: 6px;
+            border: 2px solid #f1f5f9;
+        }
+
+        .routineSection::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #4338ca, #6366f1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Main routine section container -->
+    <div class="routineSection loading" id="routineSection">
+        <!-- Header section with college information -->
+        <div class="routineSection-header">
+            <h1 class="routineSection-title">সরকারি আজিজুল হক কলেজ, বগুড়া</h1>
+            <p class="routineSection-subtitle">পদার্থবিজ্ঞান বিভাগের ২০২৪-২৫ সেশনের ক্লাস রুটিন</p>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="routineSection-buttons">
+            <button class="routineSection-btn routineSection-btn-primary" onclick="printRoutine()" id="printBtn">
+                🖨️ Print / Save as PDF
+            </button>
+            <a href="https://drive.google.com/uc?export=download&id=1O8G4hjhZDlOHW0LRFIwASVXUNvb9VR7z" 
+               target="_blank" 
+               class="routineSection-btn routineSection-btn-secondary">
+                📄 Open Original Routine
+            </a>
+        </div>
+
+        <!-- Table container with scroll support -->
+        <div class="routineSection-table-container">
+            <table class="routineSection-table">
+                <thead>
+                    <tr>
+                        <th style="width: 120px;">
+                            <span class="period-number">দিন</span>
+                            <span class="time-slot">Day</span>
+                        </th>
+                        <th>
+                            <span class="period-number">১ম পিরিয়ড</span>
+                            <span class="time-slot">৯:৪৫ - ১০:৩০</span>
+                        </th>
+                        <th>
+                            <span class="period-number">২য় পিরিয়ড</span>
+                            <span class="time-slot">১০:৩০ - ১১:১৫</span>
+                        </th>
+                        <th>
+                            <span class="period-number">৩য় পিরিয়ড</span>
+                            <span class="time-slot">১১:১৫ - ১২:০০</span>
+                        </th>
+                        <th>
+                            <span class="period-number">৪র্থ পিরিয়ড</span>
+                            <span class="time-slot">১২:০০ - ১২:৪৫</span>
+                        </th>
+                        <th>
+                            <span class="period-number">৫ম পিরিয়ড</span>
+                            <span class="time-slot">১২:৪৫ - ১:৩০</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Sunday -->
+                    <tr>
+                        <th>রবিবার</th>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: RN (Rafikun Nahar)</span>
+                                <span class="subject-name">📘 বিষয়: তাপ, তাপগতিবিদ্যা ও বিকিরণ তত্ত্ব</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: EA (Ebona Aziz)</span>
+                                <span class="subject-name">📘 বিষয়: বলবিদ্যা</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">
+👨‍🏫 শিক্ষক:⏳ Upcoming</span>
+                                <span class="subject-name">📘 বিষয়: রসায়ন - ১(নন মেজর)</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: RI (Rafiqul Islam)</span>
+                                <span class="subject-name">📘 বিষয়: বলবিদ্যা</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name"> 
+👨‍🏫 শিক্ষক:⏳ Upcoming</span>
+                                <span class="subject-name">📘 বিষয়: গণিত - ১ (নন মেজর)</span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Monday -->
+                    <tr>
+                        <th>সোমবার</th>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: AI (Aminul Islam)</span>
+                                <span class="subject-name">📘 বিষয়: বলবিদ্যা</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: KD (Kartik Chandra Debnath)</span>
+                                <span class="subject-name">📘 বিষয়: তাপ, তাপগতিবিদ্যা ও বিকিরণ তত্ত্ব</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 Muktadir</span>
+                                <span class="subject-name">📘 বিষয়: রসায়ন - ১(নন মেজর)</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: AR (Atiqur Rahman)</span>
+                                <span class="subject-name">📘 বিষয়: পদার্থের ধর্ম, তরঙ্গ ও স্পন্দন</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="empty-cell">❌</div>
+                        </td>
+                    </tr>
+
+                    <!-- Tuesday -->
+                    <tr>
+                        <th>মঙ্গলবার</th>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: AG (Abdullah Al Goni)</span>
+                                <span class="subject-name">📘 বিষয়: পদার্থের ধর্ম, তরঙ্গ ও স্পন্দন</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👩‍🏫 শিক্ষক: AR (Atiqur Rahman)</span>
+                                <span class="subject-name">📘 বিষয়: পদার্থের ধর্ম, তরঙ্গ ও স্পন্দন</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: AK (Mahbub Alom)</span>
+                                <span class="subject-name">📘 বিষয়: রসায়ন - ১(নন মেজর)</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👩‍🏫 শিক্ষক: EA (Ebona Aziz)</span>
+                                <span class="subject-name">📘 বিষয়: বলবিদ্যা</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="empty-cell">❌</div>
+                        </td>
+                    </tr>
+
+                    <!-- Wednesday -->
+                    <tr>
+                        <th>বুধবার</th>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name"></span>
+                                <span class="subject-name empty-cell">❌</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: KD (Kartik Chandra Debnath)</span>
+                                <span class="subject-name">📘 বিষয়: তাপ, তাপগতিবিদ্যা ও বিকিরণ তত্ত্ব</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: AG (Abdullah Al Goni)</span>
+                                <span class="subject-name">📘 বিষয়: পদার্থের ধর্ম, তরঙ্গ ও স্পন্দন</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">
+👨‍🏫 শিক্ষক: ARJ Jewel</span>
+                                <span class="subject-name">📘 গণিত - ১ (নন মেজর)</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="empty-cell">❌</div>
+                        </td>
+                    </tr>
+
+                    <!-- Thursday -->
+                    <tr>
+                        <th>বৃহস্পতিবার</th>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: GM (Golam Mostofa)</span>
+                                <span class="subject-name">📘 বিষয়: পদার্থের ধর্ম, তরঙ্গ ও স্পন্দন</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👩‍🏫 শিক্ষক: RN (Rafikun Nahar)</span>
+                                <span class="subject-name">📘 বিষয়: তাপ, তাপগতিবিদ্যা ও বিকিরণ তত্ত্ব</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: AI (Aminul Islam)</span>
+                                <span class="subject-name">📘 বিষয়: বলবিদ্যা</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক: AG (Abdullah Al Goni)</span>
+                                <span class="subject-name">📘 বিষয়: পদার্থের ধর্ম, তরঙ্গ ও স্পন্দন</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="subject-info">
+                                <span class="teacher-name">👨‍🏫 শিক্ষক:⏳ Upcoming</span>
+                                <span class="subject-name">📘 বিষয়: গণিত - ১ (নন মেজর)</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for routine section functionality
+        
+        /**
+         * Enhanced print functionality that preserves the original design
+         */
+        function printRoutine() {
+            // Hide buttons temporarily for print
+            const buttonsContainer = document.querySelector('.routineSection-buttons');
+            const originalDisplay = buttonsContainer.style.display;
+            buttonsContainer.style.display = 'none';
+            
+            // Trigger print dialog
+            setTimeout(() => {
+                window.print();
+                
+                // Restore buttons after print dialog
+                setTimeout(() => {
+                    buttonsContainer.style.display = originalDisplay;
+                }, 1000);
+            }, 100);
+        }
+        
+        /**
+         * Initialize the routine section with enhanced animations
+         */
+        function initializeRoutineSection() {
+            const routineSection = document.getElementById('routineSection');
+            
+            // Remove loading class to trigger animations
+            setTimeout(() => {
+                routineSection.classList.remove('loading');
+            }, 100);
+            
+            // Add enhanced hover effects to table rows
+            const tableRows = document.querySelectorAll('.routineSection-table tbody tr');
+            tableRows.forEach((row, index) => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.02)';
+                    this.style.zIndex = '10';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.zIndex = '1';
+                });
+                
+                // Add staggered animation
+                row.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Add enhanced click effect to buttons
+            const buttons = document.querySelectorAll('.routineSection-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Create enhanced ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(255, 255, 255, 0.4);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.8s ease-out;
+                        pointer-events: none;
+                        z-index: 1000;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 800);
+                });
+            });
+            
+            // Add keyboard support for print function
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                    e.preventDefault();
+                    printRoutine();
+                }
+            });
+        }
+        
+        /**
+         * Add enhanced CSS animations
+         */
+        function addEnhancedAnimations() {
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+                
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                .routineSection-table tbody tr {
+                    animation: fadeInUp 0.6s ease-out both;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Initialize everything when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            addEnhancedAnimations();
+            initializeRoutineSection();
+            
+            // Add smooth scrolling for better UX
+            document.documentElement.style.scrollBehavior = 'smooth';
+        });
+        
+        // Handle window resize for responsive behavior
+        window.addEventListener('resize', function() {
+            const routineSection = document.getElementById('routineSection');
+            if (window.innerWidth <= 768) {
+                routineSection.style.width = '98%';
+            } else {
+                routineSection.style.width = '95%';
+            }
+        });
+    </script>
+</body>
+</html>
+
